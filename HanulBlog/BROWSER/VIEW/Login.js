@@ -10,6 +10,9 @@ HanulBlog.Login = CLASS({
 		'use strict';
 
 		var
+		// password store
+		passwordStore = HanulBlog.STORE('passwordStore'),
+		
 		// auth room
 		authRoom = HanulBlog.ROOM('authRoom'),
 		
@@ -54,6 +57,14 @@ HanulBlog.Login = CLASS({
 						}, function(isAuthed) {
 							
 							if (isAuthed === true) {
+								
+								passwordStore.save({
+									name : 'password',
+									value : data.password,
+									isToSession : data.isRememberMe !== true
+								});
+								
+								HanulBlog.REFRESH('');
 								
 							} else {
 								UUI.MODAL({

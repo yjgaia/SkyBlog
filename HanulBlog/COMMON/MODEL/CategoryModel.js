@@ -25,10 +25,10 @@ HanulBlog.CategoryModel = OBJECT({
 		};
 
 		return {
-			name : 'Tag',
+			name : 'Category',
 			isNotUsingObjectId : true,
 			initData : {
-				articleCount : 0
+				articleCount : 1
 			},
 			methodConfig : {
 				create : {
