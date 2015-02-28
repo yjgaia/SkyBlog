@@ -27,6 +27,9 @@ HanulBlog.Layout = CLASS(function(cls) {
 			// auth room
 			authRoom = HanulBlog.ROOM('authRoom'),
 			
+			// category
+			category,
+			
 			// menu
 			menu,
 			
@@ -62,10 +65,10 @@ HanulBlog.Layout = CLASS(function(cls) {
 					}),
 	
 					// title
-					title : BROWSER_CONFIG.HanulBlog.title
+					title : CONFIG.title
 				}),
 	
-				leftMenu : menu = DIV({
+				leftMenu : DIV({
 					style : {
 						color : '#fff',
 						fontWeight : 'bold'
@@ -88,13 +91,19 @@ HanulBlog.Layout = CLASS(function(cls) {
 								}
 							}
 						},
-						c : BROWSER_CONFIG.HanulBlog.title,
+						c : CONFIG.title,
 						on : {
 							tap : function() {
 								HanulBlog.GO('');
 							}
 						}
-					})]
+					}),
+					
+					// category
+					category = DIV(),
+					
+					// menu
+					menu = DIV()]
 				}),
 				
 				c : content = DIV()
@@ -106,19 +115,57 @@ HanulBlog.Layout = CLASS(function(cls) {
 				data : passwordStore.get('password')
 			}, function(isAuthed) {
 				
-				menu.append(UUI.BUTTON_H({
+				if (menu !== undefined) {
+				
+					menu.append(UUI.BUTTON_H({
+						style : {
+							padding : 10
+						},
+						title : isAuthed === true ? '글 작성' : '로그인',
+						on : {
+							tap : function() {
+								HanulBlog.GO(isAuthed === true ? 'new' : 'login');
+								layout.hideLeftMenu();
+							}
+						}
+					}));
+				}
+			});
+			
+			HanulBlog.CategoryModel.find({
+				sort : {
+					articleCount : -1
+				}
+			}, EACH(function(categoryData) {
+				
+				var
+				// category dom
+				categoryDom;
+				
+				category.append(UUI.BUTTON_H({
 					style : {
-						padding : 10
+						padding : '5px 10px'
 					},
-					title : isAuthed === true ? '글 작성' : '로그인',
+					title : [categoryDom = SPAN({
+						c : categoryData.id
+					}), ' (' + categoryData.articleCount + ')'],
 					on : {
 						tap : function() {
-							HanulBlog.GO(isAuthed === true ? 'new' : 'login');
+							HanulBlog.GO('list/' + categoryData.id + '/1');
 							layout.hideLeftMenu();
 						}
 					}
 				}));
-			});
+				
+				GET({
+					host : 'tagengine.btncafe.com',
+					uri : '__REP_TAG',
+					paramStr : 'tag=' + encodeURIComponent(categoryData.id)
+				}, function(category) {
+					categoryDom.empty();
+					categoryDom.append(category);
+				});
+			}));
 			
 			inner.on('close', function() {
 				

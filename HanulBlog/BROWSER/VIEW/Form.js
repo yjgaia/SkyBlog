@@ -47,7 +47,8 @@ HanulBlog.Form = CLASS({
 				}), UUI.FULL_TEXTAREA({
 					style : {
 						marginTop : 10,
-						border : '1px solid #999'
+						border : '1px solid #999',
+						height : 300
 					},
 					placeholder : '내용',
 					name : 'content'
@@ -77,6 +78,8 @@ HanulBlog.Form = CLASS({
 				}
 			})
 		}).appendTo(HanulBlog.Layout.getContent());
+		
+		TITLE(CONFIG.title + ' :: 글작성');
 
 		inner.on('close', function() {
 			wrapper.remove();

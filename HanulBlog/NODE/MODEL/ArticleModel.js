@@ -14,7 +14,7 @@ OVERRIDE(HanulBlog.ArticleModel, function(origin) {
 				before : function(data, next) {
 
 					GET({
-						host : 'tagengine.btncafe.com',
+						host : 'tagengine.hanul.co',
 						uri : '__TAG_INPUT',
 						paramStr : 'tag=' + encodeURIComponent(data.category)
 					}, function(category) {
@@ -54,6 +54,11 @@ OVERRIDE(HanulBlog.ArticleModel, function(origin) {
 						id : originData.category,
 						$inc : {
 							articleCount : -1
+						}
+					}, function(categoryData) {
+						
+						if (categoryData.articleCount === 0) {
+							HanulBlog.CategoryModel.remove(categoryData.id);
 						}
 					});
 				}

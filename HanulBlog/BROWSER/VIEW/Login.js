@@ -81,6 +81,8 @@ HanulBlog.Login = CLASS({
 				}
 			})
 		}).appendTo(HanulBlog.Layout.getContent());
+		
+		TITLE(CONFIG.title + ' :: 로그인');
 
 		inner.on('close', function() {
 			

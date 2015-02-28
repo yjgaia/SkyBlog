@@ -6,21 +6,19 @@ BOOT({
 		isDevMode : true,
 
 		defaultBoxName : 'HanulBlog',
-		defaultTitle : 'Hanul Blog',
+		
+		title : 'Hanul Blog',
 
 		// 2월 24일에 개발 시작
-		webServerPort : 8224,
-		
-		baseBackgroundColor : '#fff',
-		baseColor : '#000'
+		webServerPort : 8224
 	},
 	
 	BROWSER_CONFIG : {
 		
 		// 블로그 기본 설정
 		HanulBlog : {
-			title : '하늘 블로그',
-			baseColor : '#AB1A2D'
+			baseColor : '#AB1A2D',
+			listArticleCount : 5
 		},
 		
 		Yogurt : {
