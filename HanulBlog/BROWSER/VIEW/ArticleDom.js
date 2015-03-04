@@ -5,6 +5,7 @@ HanulBlog.ArticleDom = CLASS({
 		//REQUIRED: params
 		//REQUIRED: params.articleData
 		//OPTIONAL: params.isViewMode
+		//OPTIONAL: params.isShowCategory
 		
 		var
 		// article data
@@ -13,14 +14,17 @@ HanulBlog.ArticleDom = CLASS({
 		// is view mode
 		isViewMode = params.isViewMode,
 		
-		// title
-		title = articleData.title !== undefined && articleData.title !== '' ? articleData.title : (articleData.content.length > 100 ? articleData.content.substring(0, 100) + ' ...' : articleData.content),
+		// is show category
+		isShowCategory = params.isShowCategory,
 		
 		// cal
-		cal = CALENDAR(articleData.createTime),
+		cal = CALENDAR(TIME(articleData.createTime)),
 		
 		// panel
 		panel,
+		
+		// category dom
+		categoryDom,
 		
 		// content
 		content,
@@ -36,7 +40,7 @@ HanulBlog.ArticleDom = CLASS({
 		
 		panel = UUI.PANEL({
 			style : {
-				margin : 10
+				margin : '10px 0'
 			},
 			contentStyle : {
 				border : '1px solid #ccc'
@@ -53,7 +57,9 @@ HanulBlog.ArticleDom = CLASS({
 						fontWeight : 'bold'
 					},
 					href : isViewMode === true ? undefined : HanulBlog.HREF('view/' + articleData.id),
-					c : title
+					c : [isShowCategory === true ? categoryDom = SPAN({
+						c : articleData.category
+					}) : '', isShowCategory === true ? ' :: ' : '', articleData.title !== undefined && articleData.title !== '' ? articleData.title : (articleData.content.length > 100 ? articleData.content.substring(0, 100) + ' ...' : articleData.content)]
 				}), SPAN({
 					style : {
 						flt : 'right',
@@ -112,6 +118,18 @@ HanulBlog.ArticleDom = CLASS({
 		
 		content.getEl().setAttribute('class', 'markdown-body');
 		content.getEl().innerHTML = marked(articleData.content);
+		
+		if (isShowCategory === true) {
+		
+			GET({
+				host : 'tagengine.btncafe.com',
+				uri : '__REP_TAG',
+				paramStr : 'tag=' + encodeURIComponent(articleData.category)
+			}, function(category) {
+				categoryDom.empty();
+				categoryDom.append(category);
+			});
+		}
 		
 		self.getPanel = getPanel = function() {
 			return panel;

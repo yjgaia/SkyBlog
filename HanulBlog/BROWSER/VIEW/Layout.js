@@ -181,7 +181,7 @@ HanulBlog.Layout = CLASS(function(cls) {
 				
 				isAuthed = _isAuthed;
 				
-				if (menu !== undefined) {
+				if (inner.checkIsClosed() !== true) {
 				
 					menu.append(UUI.BUTTON_H({
 						style : {
@@ -202,38 +202,46 @@ HanulBlog.Layout = CLASS(function(cls) {
 				sort : {
 					articleCount : -1
 				}
-			}, EACH(function(categoryData) {
+			}, function(categoryDataSet) {
 				
-				var
-				// category dom
-				categoryDom;
-				
-				category.append(UUI.BUTTON_H({
-					style : {
-						padding : '5px 10px'
-					},
-					title : [categoryDom = SPAN({
-						c : categoryData.id
-					}), ' (' + categoryData.articleCount + ')'],
-					href : HanulBlog.HREF('list/' + categoryData.id + '/1'),
-					on : {
-						tap : function(e) {
-							HanulBlog.GO('list/' + categoryData.id + '/1');
-							layout.hideLeftMenu();
-							e.stopDefault();
-						}
-					}
-				}));
-				
-				GET({
-					host : 'tagengine.btncafe.com',
-					uri : '__REP_TAG',
-					paramStr : 'tag=' + encodeURIComponent(categoryData.id)
-				}, function(category) {
-					categoryDom.empty();
-					categoryDom.append(category);
-				});
-			}));
+				if (inner.checkIsClosed() !== true) {
+					
+					EACH(categoryDataSet, function(categoryData) {
+						
+						var
+						// category dom
+						categoryDom;
+						
+						category.append(UUI.BUTTON_H({
+							style : {
+								padding : '5px 10px'
+							},
+							title : [categoryDom = SPAN({
+								c : categoryData.id
+							}), ' (' + categoryData.articleCount + ')'],
+							href : HanulBlog.HREF('list/' + categoryData.id + '/1'),
+							on : {
+								tap : function(e) {
+									HanulBlog.GO('list/' + categoryData.id + '/1');
+									layout.hideLeftMenu();
+									e.stopDefault();
+								}
+							}
+						}));
+						
+						GET({
+							host : 'tagengine.btncafe.com',
+							uri : '__REP_TAG',
+							paramStr : 'tag=' + encodeURIComponent(categoryData.id)
+						}, function(category) {
+							if (inner.checkIsClosed() !== true) {
+								categoryDom.empty();
+								categoryDom.append(category);
+							}
+						});
+					});
+				}
+			});
 			
 			inner.on('close', function() {
 				
@@ -241,7 +249,6 @@ HanulBlog.Layout = CLASS(function(cls) {
 				
 				layout.remove();
 				
-				menu = undefined;
 				content = undefined;
 			});
 		}

@@ -9,7 +9,7 @@ HanulBlog.MAIN = METHOD({
 		});
 
 		HanulBlog.MATCH_VIEW({
-			uri : ['', 'list/{page}', 'list/{tag}/{page}'],
+			uri : ['', 'list/{page}', 'list/{category}/{page}'],
 			target : HanulBlog.List
 		});
 		

@@ -11,7 +11,11 @@ HanulBlog.View = CLASS({
 		
 		var
 		// wrapper
-		wrapper = DIV().appendTo(HanulBlog.Layout.getContent());
+		wrapper = DIV({
+			style : {
+				padding : 10
+			}
+		}).appendTo(HanulBlog.Layout.getContent());
 		
 		inner.on('paramsChange', function(params) {
 			
@@ -25,8 +29,6 @@ HanulBlog.View = CLASS({
 				
 				wrapper.append(UUI.BUTTON({
 					style : {
-						marginLeft : 10,
-						marginTop : 10,
 						flt : 'left',
 						color : '#4183c4'
 					},

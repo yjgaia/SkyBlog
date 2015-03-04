@@ -53,6 +53,10 @@ HanulBlog.Form = CLASS({
 			function() {
 				return function(articleData) {
 					
+					var
+					// category input
+					categoryInput;
+					
 					if (inner.checkIsClosed() !== true) {
 					
 						if (form !== undefined) {
@@ -78,7 +82,7 @@ HanulBlog.Form = CLASS({
 								backgroundColor : '#D83F25',
 								color : '#fff'
 							},
-							c : [UUI.FULL_INPUT({
+							c : [categoryInput = UUI.FULL_INPUT({
 								style : {
 									border : '1px solid #999'
 								},
@@ -131,6 +135,12 @@ HanulBlog.Form = CLASS({
 						
 						if (articleData !== undefined) {
 							form.setData(articleData);
+							
+							GET({
+								host : 'tagengine.btncafe.com',
+								uri : '__REP_TAG',
+								paramStr : 'tag=' + encodeURIComponent(articleData.category)
+							}, categoryInput.setValue);
 						}
 					}
 				};

@@ -10,6 +10,9 @@ HanulBlog.List = CLASS({
 		'use strict';
 
 		var
+		// category dom
+		categoryDom,
+		
 		// list
 		list,
 		
@@ -25,12 +28,14 @@ HanulBlog.List = CLASS({
 		// wrapper
 		wrapper = DIV({
 			style : {
-				paddingBottom : 10
+				padding : 10
 			},
-			c : [UUI.BUTTON({
+			c : [categoryDom = DIV({
 				style : {
-					marginRight : 10,
-					marginTop : 10,
+					flt : 'left'
+				}
+			}), UUI.BUTTON({
+				style : {
 					flt : 'right',
 					color : '#4183c4'
 				},
@@ -66,82 +71,108 @@ HanulBlog.List = CLASS({
 		inner.on('paramsChange', function(params) {
 			
 			var
-			// tag
-			tag = params.tag,
+			// category
+			category = params.category,
 			
 			// page
 			page = params.page;
+			
+			categoryDom.empty();
+			
+			if (category !== undefined) {
+				categoryDom.append(category);
+				
+				GET({
+					host : 'tagengine.btncafe.com',
+					uri : '__REP_TAG',
+					paramStr : 'tag=' + encodeURIComponent(category)
+				}, function(category) {
+					if (inner.checkIsClosed() !== true) {
+						categoryDom.empty();
+						categoryDom.append(category);
+					}
+				});
+			}
 			
 			if (page === undefined) {
 				page = 1;
 			} else {
 				page = INTEGER(page);
 			}
-			
 			list.removeAllItems();
 			
 			articleDoms = [];
 			
 			HanulBlog.ArticleModel.find({
 				filter : {
-					category : tag
+					category : category
 				},
 				start : (page - 1) * BROWSER_CONFIG.HanulBlog.listArticleCount,
 				count : BROWSER_CONFIG.HanulBlog.listArticleCount
-			}, EACH(function(articleData) {
+			}, function(articleDataSet) {
 				
-				var
-				// article dom
-				articleDom = HanulBlog.ArticleDom({
-					articleData : articleData
-				});
-				
-				list.addItem({
-					key : articleData.id,
-					item : LI({
-						c : articleDom.getPanel()
-					})
-				});
-				
-				articleDoms.push(articleDom);
-			}));
+				if (inner.checkIsClosed() !== true) {
+						
+					EACH(articleDataSet, function(articleData) {
+					
+						var
+						// article dom
+						articleDom = HanulBlog.ArticleDom({
+							articleData : articleData,
+							isShowCategory : category === undefined
+						});
+						
+						list.addItem({
+							key : articleData.id,
+							item : LI({
+								c : articleDom.getPanel()
+							})
+						});
+						
+						articleDoms.push(articleDom);
+					});
+				}
+			});
 			
 			pageNumbers.removeAllItems();
 			
 			HanulBlog.ArticleModel.count({
 				filter : {
-					category : tag
+					category : category
 				}
 			}, function(count) {
 				
-				REPEAT((count - 1) / BROWSER_CONFIG.HanulBlog.listArticleCount + 1, function(i) {
+				if (inner.checkIsClosed() !== true) {
 				
-					pageNumbers.addItem({
-						key : i + 1,
-						item : LI({
-							style : {
-								flt : 'left',
-								marginLeft : 10
-							},
-							c : A({
-								c : i + 1,
-								href : HanulBlog.HREF('list/' + (tag === undefined ? '' : tag + '/') + (i + 1)),
-								on : {
-									tap : function(e) {
-										HanulBlog.GO('list/' + (tag === undefined ? '' : tag + '/') + (i + 1));
-										e.stopDefault();
+					REPEAT((count - 1) / BROWSER_CONFIG.HanulBlog.listArticleCount + 1, function(i) {
+					
+						pageNumbers.addItem({
+							key : i + 1,
+							item : LI({
+								style : {
+									flt : 'left',
+									marginRight : 10
+								},
+								c : A({
+									c : i + 1,
+									href : HanulBlog.HREF('list/' + (category === undefined ? '' : category + '/') + (i + 1)),
+									on : {
+										tap : function(e) {
+											HanulBlog.GO('list/' + (category === undefined ? '' : category + '/') + (i + 1));
+											e.stopDefault();
+										}
 									}
-								}
+								})
 							})
-						})
+						});
 					});
-				});
+				}
 			});
 			
-			if (tag === undefined) {
+			if (category === undefined) {
 				TITLE(CONFIG.title);
 			} else {
-				TITLE(CONFIG.title + ' :: ' + tag);
+				TITLE(CONFIG.title + ' :: ' + category);
 			}
 		});
 
