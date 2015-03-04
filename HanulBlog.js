@@ -18,7 +18,8 @@ BOOT({
 		// 블로그 기본 설정
 		HanulBlog : {
 			baseColor : '#AB1A2D',
-			listArticleCount : 5
+			listArticleCount : 5,
+			email : 'contact 메일 주소'
 		},
 		
 		Yogurt : {
@@ -32,6 +33,8 @@ BOOT({
 	NODE_CONFIG : {
 		
 		dbName : 'HanulBlog-test',
+		
+		isUsingHTMLSnapshot : true,
 		
 		HanulBlog : {
 			password : 'test'

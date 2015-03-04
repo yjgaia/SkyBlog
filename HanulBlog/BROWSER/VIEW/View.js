@@ -1,77 +1,56 @@
-HanulBlog.View = CLASS(function(cls) {
-	'use strict';
-	
-	var
-	// create dom.
-	createDom;
-	
-	cls.createDom = createDom = function(articleData) {
+HanulBlog.View = CLASS({
+
+	preset : function() {
+		'use strict';
+
+		return VIEW;
+	},
+
+	init : function(inner, self) {
+		'use strict';
 		
 		var
-		// panel
-		panel,
+		// wrapper
+		wrapper = DIV().appendTo(HanulBlog.Layout.getContent());
 		
-		// content
-		content;
-		
-		panel = UUI.PANEL({
-			style : {
-				margin : 10
-			},
-			contentStyle : {
-				border : '1px solid #ccc'
-			},
-			c : [H3({
-				style : {
-					padding : 10,
-					fontWeight : 'bold'
-				},
-				c : articleData.title
-			}), content = P({
-				style : {
-					borderTop : '1px solid #ccc',
-					padding : 10,
-					fontSize : 14
-				}
-			})]
-		});
-		
-		content.getEl().setAttribute('class', 'markdown-body');
-		content.getEl().innerHTML = marked(articleData.content);
-		
-		return panel;
-	};
-	
-	return {
-
-		preset : function() {
-			return VIEW;
-		},
-	
-		init : function(inner, self) {
+		inner.on('paramsChange', function(params) {
 			
 			var
-			// wrapper
-			wrapper = DIV().appendTo(HanulBlog.Layout.getContent());
+			// id
+			id = params.id;
 			
-			inner.on('paramsChange', function(params) {
+			HanulBlog.ArticleModel.get(id, function(articleData) {
 				
-				var
-				// id
-				id = params.id;
+				wrapper.empty();
 				
-				HanulBlog.ArticleModel.get(id, function(articleData) {
-					
-					wrapper.empty();
-					wrapper.append(HanulBlog.View.createDom(articleData));
-					
-					TITLE(CONFIG.title + ' :: ' + articleData.title);
-				});
+				wrapper.append(UUI.BUTTON({
+					style : {
+						marginLeft : 10,
+						marginTop : 10,
+						flt : 'left',
+						color : '#4183c4'
+					},
+					title : '뒤로가기',
+					on : {
+						tap : function(e) {
+							history.back();
+						}
+					}
+				}));
+				
+				wrapper.append(CLEAR_BOTH());
+				
+				wrapper.append(HanulBlog.ArticleDom({
+					articleData : articleData,
+					isViewMode : true
+				}).getPanel());
+				
+				TITLE(CONFIG.title + ' :: ' + articleData.title);
 			});
-	
-			inner.on('close', function() {
-				wrapper.remove();
-			});
-		}
-	};
+		});
+
+		inner.on('close', function() {
+			wrapper.remove();
+		});
+	}
 });

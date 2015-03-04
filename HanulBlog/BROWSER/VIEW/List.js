@@ -16,12 +16,51 @@ HanulBlog.List = CLASS({
 		// page numbers
 		pageNumbers,
 		
+		// article doms
+		articleDoms = [],
+		
+		// is contents hiding
+		isContentsHiding = false,
+		
 		// wrapper
 		wrapper = DIV({
 			style : {
 				paddingBottom : 10
 			},
-			c : [list = UUI.LIST(), pageNumbers = UUI.LIST(), CLEAR_BOTH()]
+			c : [UUI.BUTTON({
+				style : {
+					marginRight : 10,
+					marginTop : 10,
+					flt : 'right',
+					color : '#4183c4'
+				},
+				title : '내용 닫기',
+				on : {
+					tap : function(e, button) {
+						
+						if (isContentsHiding !== true) {
+						
+							EACH(articleDoms, function(articleDom) {
+								articleDom.hideContent();
+							});
+							
+							isContentsHiding = true;
+							
+							button.setTitle('내용 열기');
+						
+						} else {
+							
+							EACH(articleDoms, function(articleDom) {
+								articleDom.showContent();
+							});
+							
+							isContentsHiding = false;
+							
+							button.setTitle('내용 닫기');
+						}
+					}
+				}
+			}), CLEAR_BOTH(), list = UUI.LIST(), pageNumbers = UUI.LIST(), CLEAR_BOTH()]
 		}).appendTo(HanulBlog.Layout.getContent());
 		
 		inner.on('paramsChange', function(params) {
@@ -41,6 +80,8 @@ HanulBlog.List = CLASS({
 			
 			list.removeAllItems();
 			
+			articleDoms = [];
+			
 			HanulBlog.ArticleModel.find({
 				filter : {
 					category : tag
@@ -49,12 +90,20 @@ HanulBlog.List = CLASS({
 				count : BROWSER_CONFIG.HanulBlog.listArticleCount
 			}, EACH(function(articleData) {
 				
+				var
+				// article dom
+				articleDom = HanulBlog.ArticleDom({
+					articleData : articleData
+				});
+				
 				list.addItem({
 					key : articleData.id,
 					item : LI({
-						c : HanulBlog.View.createDom(articleData)
+						c : articleDom.getPanel()
 					})
 				});
+				
+				articleDoms.push(articleDom);
 			}));
 			
 			pageNumbers.removeAllItems();
@@ -79,9 +128,11 @@ HanulBlog.List = CLASS({
 									cursor : 'pointer'
 								},
 								c : i + 1,
+								href : HanulBlog.HREF('list/' + (tag === undefined ? '' : tag + '/') + (i + 1)),
 								on : {
-									tap : function() {
+									tap : function(e) {
 										HanulBlog.GO('list/' + (tag === undefined ? '' : tag + '/') + (i + 1));
+										e.stopDefault();
 									}
 								}
 							})

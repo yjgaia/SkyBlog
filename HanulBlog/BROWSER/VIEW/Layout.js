@@ -65,7 +65,21 @@ HanulBlog.Layout = CLASS(function(cls) {
 					}),
 	
 					// title
-					title : CONFIG.title
+					title : H1({
+						c : A({
+							style : {
+								textDecoration : 'none'
+							},
+							href : HanulBlog.HREF(''),
+							c : CONFIG.title
+						}),
+						on : {
+							tap : function(e) {
+								HanulBlog.GO('');
+								e.stopDefault();
+							}
+						}
+					})
 				}),
 	
 				leftMenu : DIV({
@@ -78,7 +92,6 @@ HanulBlog.Layout = CLASS(function(cls) {
 							padding : 10,
 							fontSize : 30,
 							fontWeight : 'bold',
-							cursor : 'pointer',
 							onDisplayResize : function(width, height) {
 								if (width > Yogurt.MenuLayout.getHideMenuWinWidth()) {
 									return {
@@ -91,19 +104,56 @@ HanulBlog.Layout = CLASS(function(cls) {
 								}
 							}
 						},
-						c : CONFIG.title,
+						c : A({
+							style : {
+								textDecoration : 'none'
+							},
+							href : HanulBlog.HREF(''),
+							c : CONFIG.title
+						}),
 						on : {
-							tap : function() {
+							tap : function(e) {
 								HanulBlog.GO('');
+								e.stopDefault();
 							}
 						}
 					}),
 					
 					// category
-					category = DIV(),
+					category = DIV({
+						c : UUI.BUTTON_H({
+							style : {
+								padding : '10px 10px 5px 10px'
+							},
+							title : A({
+								style : {
+									textDecoration : 'none'
+								},
+								href : HanulBlog.HREF(''),
+								c : '전체보기'
+							}),
+							on : {
+								tap : function(e) {
+									HanulBlog.GO('');
+									layout.hideLeftMenu();
+									e.stopDefault();
+								}
+							}
+						})
+					}),
 					
 					// menu
-					menu = DIV()]
+					menu = DIV(),
+					
+					// email
+					BROWSER_CONFIG.HanulBlog.email === undefined ? '' : A({
+						style : {
+							padding : 10,
+							textDecoration : 'none'
+						},
+						c : BROWSER_CONFIG.HanulBlog.email,
+						href : 'mailto:' + BROWSER_CONFIG.HanulBlog.email
+					})]
 				}),
 				
 				c : content = DIV()
@@ -149,10 +199,12 @@ HanulBlog.Layout = CLASS(function(cls) {
 					title : [categoryDom = SPAN({
 						c : categoryData.id
 					}), ' (' + categoryData.articleCount + ')'],
+					href : HanulBlog.HREF('list/' + categoryData.id + '/1'),
 					on : {
-						tap : function() {
+						tap : function(e) {
 							HanulBlog.GO('list/' + categoryData.id + '/1');
 							layout.hideLeftMenu();
+							e.stopDefault();
 						}
 					}
 				}));
