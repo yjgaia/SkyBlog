@@ -2,11 +2,21 @@ HanulBlog.Layout = CLASS(function(cls) {
 	'use strict';
 
 	var
+	// is authed
+	isAuthed = false,
+	
 	// content
 	content,
 	
+	// check is authed.
+	checkIsAuthed,
+	
 	// get content.
 	getContent;
+	
+	cls.checkIsAuthed = checkIsAuthed = function() {
+		return isAuthed;
+	};
 	
 	cls.getContent = getContent = function() {
 		return content;
@@ -66,6 +76,9 @@ HanulBlog.Layout = CLASS(function(cls) {
 	
 					// title
 					title : H1({
+						style : {
+							cursor : 'pointer'
+						},
 						c : A({
 							style : {
 								textDecoration : 'none'
@@ -92,6 +105,7 @@ HanulBlog.Layout = CLASS(function(cls) {
 							padding : 10,
 							fontSize : 30,
 							fontWeight : 'bold',
+							cursor : 'pointer',
 							onDisplayResize : function(width, height) {
 								if (width > Yogurt.MenuLayout.getHideMenuWinWidth()) {
 									return {
@@ -163,7 +177,9 @@ HanulBlog.Layout = CLASS(function(cls) {
 			authRoom.send({
 				methodName : 'auth',
 				data : passwordStore.get('password')
-			}, function(isAuthed) {
+			}, function(_isAuthed) {
+				
+				isAuthed = _isAuthed;
 				
 				if (menu !== undefined) {
 				

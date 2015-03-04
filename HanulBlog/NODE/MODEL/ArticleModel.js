@@ -21,7 +21,12 @@ OVERRIDE(HanulBlog.ArticleModel, function(origin) {
 						
 						data.category = category;
 					
-						HanulBlog.CategoryModel.get(category, {
+						HanulBlog.CategoryModel.update({
+							id : category,
+							$inc : {
+								articleCount : 1
+							}
+						}, {
 							
 							notExists : function() {
 								
@@ -30,16 +35,78 @@ OVERRIDE(HanulBlog.ArticleModel, function(origin) {
 								}, next);
 							},
 							
-							success : function() {
-								
-								HanulBlog.CategoryModel.update({
-									id : category,
-									$inc : {
-										articleCount : 1
-									}
-								}, next);
-							}
+							success : next
 						});
+					});
+					
+					return false;
+				}
+			});
+			
+			inner.on('update', {
+			
+				before : function(data, next) {
+					
+					self.get(data.id, function(originData) {
+						
+						if (originData.category === data.category) {
+							next();
+						} else {
+							
+							GET({
+								host : 'tagengine.hanul.co',
+								uri : '__TAG_INPUT',
+								paramStr : 'tag=' + encodeURIComponent(data.category)
+							}, function(category) {
+								
+								data.category = category;
+								
+								if (originData.category === data.category) {
+									next();
+								} else {
+									
+									NEXT([
+									function(next2) {
+										
+										HanulBlog.CategoryModel.update({
+											id : category,
+											$inc : {
+												articleCount : 1
+											}
+										}, {
+											
+											notExists : function() {
+												
+												HanulBlog.CategoryModel.create({
+													id : category
+												}, next2);
+											},
+											
+											success : next2
+										});
+									},
+									
+									function() {
+										return function() {
+											
+											HanulBlog.CategoryModel.update({
+												id : originData.category,
+												$inc : {
+													articleCount : -1
+												}
+											}, function(categoryData) {
+												
+												if (categoryData.articleCount === 0) {
+													HanulBlog.CategoryModel.remove(categoryData.id, next);
+												} else {
+													next();
+												}
+											});
+										};
+									}]);
+								}
+							});
+						}
 					});
 					
 					return false;

@@ -124,9 +124,6 @@ HanulBlog.List = CLASS({
 								marginLeft : 10
 							},
 							c : A({
-								style : {
-									cursor : 'pointer'
-								},
 								c : i + 1,
 								href : HanulBlog.HREF('list/' + (tag === undefined ? '' : tag + '/') + (i + 1)),
 								on : {
