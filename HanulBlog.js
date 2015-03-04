@@ -17,16 +17,16 @@ BOOT({
 		
 		// 블로그 기본 설정
 		HanulBlog : {
-			baseColor : '#AB1A2D',
+			baseColor : '#333',
 			listArticleCount : 5,
 			email : 'contact 메일 주소'
 		},
 		
 		Yogurt : {
-			toolbarColor : '#AB1A2D',
-			buttonColor : '#AB1A2D',
+			toolbarColor : '#333',
+			buttonColor : '#333',
 			menuLayoutMenuWidth : 250,
-			menuLayoutMenuBackgroundColor : '#AB1A2D'
+			menuLayoutMenuBackgroundColor : '#333'
 		}
 	},
 
