@@ -54,6 +54,12 @@ HanulBlog.Form = CLASS({
 				return function(articleData) {
 					
 					var
+					// editor
+					editor,
+					
+					// ace editor
+					aceEditor,
+					
 					// category input
 					categoryInput;
 					
@@ -95,14 +101,11 @@ HanulBlog.Form = CLASS({
 								},
 								placeholder : '제목',
 								name : 'title'
-							}), UUI.FULL_TEXTAREA({
+							}), editor = DIV({
 								style : {
 									marginTop : 10,
-									border : '1px solid #999',
 									height : 300
-								},
-								placeholder : '내용',
-								name : 'content'
+								}
 							}), UUI.FULL_SUBMIT({
 								style : {
 									marginTop : 10,
@@ -111,6 +114,17 @@ HanulBlog.Form = CLASS({
 									fontWeight : 'bold'
 								},
 								value : articleData === undefined ? '글 작성' : '글 수정'
+							}), UUI.FULL_UPLOAD_FORM({
+								style : {
+									marginTop : 10
+								},
+								box : HanulBlog,
+								uploadSuccess : function(fileData, form) {
+									
+									form.after(P({
+										c : '![ScreenShot](' + HanulBlog.RF(fileData.id) + ')'
+									}));
+								}
 							})],
 							on : {
 								submit : function(e, form) {
@@ -123,6 +137,8 @@ HanulBlog.Form = CLASS({
 										data.id = articleData.id;
 									}
 									
+									data.content = aceEditor.getValue();
+									
 									(articleData === undefined ? HanulBlog.ArticleModel.create : HanulBlog.ArticleModel.update)(data, {
 										notValid : form.showErrors,
 										success : function(savedData) {
@@ -133,8 +149,13 @@ HanulBlog.Form = CLASS({
 							}
 						}));
 						
+						aceEditor = ace.edit(editor.getEl());
+					    aceEditor.setTheme('ace/theme/twilight');
+					    aceEditor.getSession().setMode('ace/mode/markdown');
+						
 						if (articleData !== undefined) {
 							form.setData(articleData);
+							aceEditor.setValue(articleData.content, 1);
 							
 							GET({
 								host : 'tagengine.btncafe.com',
