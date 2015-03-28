@@ -10,7 +10,9 @@ BOOT({
 		title : 'Hanul Blog',
 
 		// 2월 24일에 개발 시작
-		webServerPort : 8224
+		webServerPort : 8224,
+		
+		maxThumbWidth : 400
 	},
 	
 	BROWSER_CONFIG : {

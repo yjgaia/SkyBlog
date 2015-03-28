@@ -122,7 +122,7 @@ HanulBlog.Form = CLASS({
 								uploadSuccess : function(fileData, form) {
 									
 									form.after(P({
-										c : '![ScreenShot](' + HanulBlog.RF(fileData.id) + ')'
+										c : '![ScreenShot](' + HanulBlog.RF('THUMB/' + fileData.id) + ')'
 									}));
 								}
 							})],
