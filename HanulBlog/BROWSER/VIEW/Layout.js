@@ -84,7 +84,12 @@ HanulBlog.Layout = CLASS(function(cls) {
 								textDecoration : 'none'
 							},
 							href : HanulBlog.HREF(''),
-							c : CONFIG.title
+							c : BROWSER_CONFIG.HanulBlog === undefined || BROWSER_CONFIG.HanulBlog.logoImage === undefined ? CONFIG.title : IMG({
+								style : {
+									height : 25
+								},
+								src : HanulBlog.R(BROWSER_CONFIG.HanulBlog.logoImage)
+							})
 						}),
 						on : {
 							tap : function(e) {
@@ -123,7 +128,9 @@ HanulBlog.Layout = CLASS(function(cls) {
 								textDecoration : 'none'
 							},
 							href : HanulBlog.HREF(''),
-							c : CONFIG.title
+							c : BROWSER_CONFIG.HanulBlog === undefined || BROWSER_CONFIG.HanulBlog.logoImage === undefined ? CONFIG.title : IMG({
+								src : HanulBlog.R(BROWSER_CONFIG.HanulBlog.logoImage)
+							})
 						}),
 						on : {
 							tap : function(e) {
@@ -157,7 +164,11 @@ HanulBlog.Layout = CLASS(function(cls) {
 					}),
 					
 					// menu
-					menu = DIV(),
+					menu = DIV({
+						style : {
+							marginTop : 10
+						}
+					}),
 					
 					// email
 					BROWSER_CONFIG.HanulBlog.email === undefined ? '' : A({
@@ -200,7 +211,7 @@ HanulBlog.Layout = CLASS(function(cls) {
 			
 			HanulBlog.CategoryModel.find({
 				sort : {
-					articleCount : -1
+					lastUpdateTime : -1
 				}
 			}, function(categoryDataSet) {
 				

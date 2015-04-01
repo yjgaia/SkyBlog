@@ -1,4 +1,4 @@
-require(process.env['UPPERCASE_IO_PATH'] + '/BOOT.js');
+require(process.env.UPPERCASE_IO_PATH + '/BOOT.js');
 
 BOOT({
 	CONFIG : {
@@ -12,7 +12,7 @@ BOOT({
 		// 2월 24일에 개발 시작
 		webServerPort : 8224,
 		
-		maxThumbWidth : 400
+		maxThumbHeight : 400
 	},
 	
 	BROWSER_CONFIG : {
@@ -21,7 +21,10 @@ BOOT({
 		HanulBlog : {
 			baseColor : '#333',
 			listArticleCount : 5,
-			email : 'contact 메일 주소'
+			email : 'contact 메일 주소',
+			// 로고 이미지. 설정하지 않으면 CONFIG.title이 뜨게됩니다.
+			// 높이는 40px에 맞추어주세요.
+			logoImage : 'logo.png'
 		},
 		
 		Yogurt : {
@@ -39,7 +42,7 @@ BOOT({
 		isUsingHTMLSnapshot : true,
 		
 		HanulBlog : {
-			password : 'test'
+			password : '1234'
 		}
 	}
 });
