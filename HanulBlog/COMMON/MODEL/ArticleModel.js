@@ -13,8 +13,9 @@ HanulBlog.ArticleModel = OBJECT({
 		// valid data set
 		validDataSet = {
 			
-			// 카테고리는 입력해도 되고 안입력해도 됩니다.
+			// 카테고리는 입력해야 한다.
 			category : {
+				notEmpty : true,
 				size : {
 					max : 255
 				}
@@ -35,14 +36,14 @@ HanulBlog.ArticleModel = OBJECT({
 			methodConfig : {
 				create : {
 					valid : VALID(validDataSet),
-					role : 'MASTER'
+					role : 'ADMIN'
 				},
 				update : {
 					valid : VALID(validDataSet),
-					role : 'MASTER'
+					role : 'ADMIN'
 				},
 				remove : {
-					role : 'MASTER'
+					role : 'ADMIN'
 				}
 			}
 		};

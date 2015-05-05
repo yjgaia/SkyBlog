@@ -75,6 +75,7 @@ HanulBlog.Form = CLASS({
 							},
 							errorMsgs : {
 								category : {
+									notEmpty : '카테고리를 입력해주세요.',
 									size : function(validParams) {
 										return '카테고리는 ' + validParams.max + '글자 미만으로 입력해주세요.';
 									}
@@ -121,9 +122,11 @@ HanulBlog.Form = CLASS({
 								box : HanulBlog,
 								uploadSuccess : function(fileData, form) {
 									
-									form.after(P({
-										c : '![ScreenShot](' + HanulBlog.RF('THUMB/' + fileData.id) + ')'
-									}));
+									if (fileData.type.substring(0, 6) === 'image/') {
+										aceEditor.setValue(aceEditor.getValue() + '[![ScreenShot](' + HanulBlog.RF('THUMB/' + fileData.id) + ')](' + HanulBlog.RF(fileData.id) + ')', -1);
+									} else {
+										aceEditor.setValue(aceEditor.getValue() + '[](' + HanulBlog.RF(fileData.id) + ')', -1);
+									}
 								}
 							})],
 							on : {
@@ -140,7 +143,28 @@ HanulBlog.Form = CLASS({
 									data.content = aceEditor.getValue();
 									
 									(articleData === undefined ? HanulBlog.ArticleModel.create : HanulBlog.ArticleModel.update)(data, {
-										notValid : form.showErrors,
+										notValid : function(validErrors) {
+											
+											var
+											// error msg p
+											errorMsgP;
+											
+											form.showErrors(validErrors);
+											
+											if (validErrors.content !== undefined) {
+												
+												editor.after(errorMsgP = P({
+													style : form.getErrorMsgStyle(),
+													c : form.getErrorMsgs(validErrors).content
+												}));
+												
+												DELAY(2, function(delay) {
+													if (inner.checkIsClosed() !== true) {
+														errorMsgP.remove();
+													}
+												});
+											}
+										},
 										success : function(savedData) {
 											HanulBlog.GO('view/' + savedData.id);
 										}

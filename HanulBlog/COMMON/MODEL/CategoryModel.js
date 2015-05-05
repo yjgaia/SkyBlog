@@ -33,14 +33,14 @@ HanulBlog.CategoryModel = OBJECT({
 			methodConfig : {
 				create : {
 					valid : VALID(validDataSet),
-					role : 'MASTER'
+					role : 'ADMIN'
 				},
 				update : {
 					valid : VALID(validDataSet),
-					role : 'MASTER'
+					role : 'ADMIN'
 				},
 				remove : {
-					role : 'MASTER'
+					role : 'ADMIN'
 				}
 			}
 		};

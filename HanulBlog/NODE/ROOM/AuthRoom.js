@@ -8,7 +8,7 @@ HanulBlog.AuthRoom = OBJECT({
 			on('auth', function(password, ret) {
 				
 				if (password === NODE_CONFIG.HanulBlog.password) {
-					clientInfo.roles = ['MASTER'];
+					clientInfo.roles = ['ADMIN'];
 				}
 				
 				ret(password === NODE_CONFIG.HanulBlog.password);

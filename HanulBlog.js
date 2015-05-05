@@ -20,7 +20,7 @@ BOOT({
 		// 블로그 기본 설정
 		HanulBlog : {
 			baseColor : '#333',
-			listArticleCount : 5,
+			listArticleCount : 10,
 			email : 'contact 메일 주소',
 			// 로고 이미지. 설정하지 않으면 CONFIG.title이 뜨게됩니다.
 			// 높이는 40px에 맞추어주세요.
