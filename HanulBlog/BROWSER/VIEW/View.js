@@ -47,7 +47,7 @@ HanulBlog.View = CLASS({
 					isViewMode : true
 				}).getPanel());
 				
-				TITLE(CONFIG.title + ' :: ' + articleData.title);
+				TITLE(articleData.title + ' - ' + CONFIG.title);
 			});
 		});
 

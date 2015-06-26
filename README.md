@@ -9,8 +9,5 @@
 
 문서 양식은 Markdown을 사용합니다.
 
-## 예시
-http://blog.hanul.me
-
 ## 작성자
 [심영재](https://github.com/Hanul)

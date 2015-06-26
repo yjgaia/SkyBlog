@@ -94,7 +94,6 @@ HanulBlog.Layout = CLASS(function(cls) {
 						on : {
 							tap : function(e) {
 								HanulBlog.GO('');
-								e.stopDefault();
 							}
 						}
 					})
@@ -135,7 +134,6 @@ HanulBlog.Layout = CLASS(function(cls) {
 						on : {
 							tap : function(e) {
 								HanulBlog.GO('');
-								e.stopDefault();
 							}
 						}
 					}),
@@ -157,7 +155,6 @@ HanulBlog.Layout = CLASS(function(cls) {
 								tap : function(e) {
 									HanulBlog.GO('');
 									layout.hideLeftMenu();
-									e.stopDefault();
 								}
 							}
 						})
@@ -235,7 +232,6 @@ HanulBlog.Layout = CLASS(function(cls) {
 								tap : function(e) {
 									HanulBlog.GO('list/' + categoryData.id + '/1');
 									layout.hideLeftMenu();
-									e.stopDefault();
 								}
 							}
 						}));

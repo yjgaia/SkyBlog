@@ -42,10 +42,10 @@ HanulBlog.Form = CLASS({
 			function(next) {
 				
 				if (id === undefined) {
-					TITLE(CONFIG.title + ' :: 글작성');
+					TITLE('글작성 - ' + CONFIG.title);
 					next();
 				} else {
-					TITLE(CONFIG.title + ' :: 글수정');
+					TITLE('글수정 - ' + CONFIG.title);
 					HanulBlog.ArticleModel.get(id, next);
 				}
 			},
@@ -56,9 +56,6 @@ HanulBlog.Form = CLASS({
 					var
 					// editor
 					editor,
-					
-					// ace editor
-					aceEditor,
 					
 					// category input
 					categoryInput;
@@ -102,11 +99,18 @@ HanulBlog.Form = CLASS({
 								},
 								placeholder : '제목',
 								name : 'title'
-							}), editor = DIV({
+							}), editor = UUI.FULL_TEXTAREA({
 								style : {
 									marginTop : 10,
-									height : 300
-								}
+									height : 300,
+									backgroundColor : '#000',
+									padding : 10
+								},
+								textareaStyle : {
+									color : '#fff',
+									lineHeight : '1.4em'
+								},
+								name : 'content'
 							}), UUI.FULL_SUBMIT({
 								style : {
 									marginTop : 10,
@@ -123,9 +127,9 @@ HanulBlog.Form = CLASS({
 								uploadSuccess : function(fileData, form) {
 									
 									if (fileData.type.substring(0, 6) === 'image/') {
-										aceEditor.setValue(aceEditor.getValue() + '[![ScreenShot](' + HanulBlog.RF('THUMB/' + fileData.id) + ')](' + HanulBlog.RF(fileData.id) + ')', -1);
+										editor.setValue(editor.getValue() + '[![ScreenShot](' + HanulBlog.RF('THUMB/' + fileData.id) + ')](' + HanulBlog.RF(fileData.id) + ')', -1);
 									} else {
-										aceEditor.setValue(aceEditor.getValue() + '[](' + HanulBlog.RF(fileData.id) + ')', -1);
+										editor.setValue(editor.getValue() + '[](' + HanulBlog.RF(fileData.id) + ')', -1);
 									}
 								}
 							})],
@@ -140,7 +144,7 @@ HanulBlog.Form = CLASS({
 										data.id = articleData.id;
 									}
 									
-									data.content = aceEditor.getValue();
+									data.content = editor.getValue();
 									
 									(articleData === undefined ? HanulBlog.ArticleModel.create : HanulBlog.ArticleModel.update)(data, {
 										notValid : function(validErrors) {
@@ -173,13 +177,9 @@ HanulBlog.Form = CLASS({
 							}
 						}));
 						
-						aceEditor = ace.edit(editor.getEl());
-					    aceEditor.setTheme('ace/theme/twilight');
-					    aceEditor.getSession().setMode('ace/mode/markdown');
-						
 						if (articleData !== undefined) {
 							form.setData(articleData);
-							aceEditor.setValue(articleData.content, 1);
+							editor.setValue(articleData.content, 1);
 							
 							GET({
 								host : 'tagengine.btncafe.com',

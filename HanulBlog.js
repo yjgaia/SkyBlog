@@ -19,7 +19,7 @@ BOOT({
 		
 		// 블로그 기본 설정
 		HanulBlog : {
-			baseColor : '#333',
+			baseColor : '#4183c4',
 			listArticleCount : 10,
 			email : 'contact 메일 주소',
 			// 로고 이미지. 설정하지 않으면 CONFIG.title이 뜨게됩니다.
@@ -28,18 +28,16 @@ BOOT({
 		},
 		
 		Yogurt : {
-			toolbarColor : '#333',
-			buttonColor : '#333',
+			toolbarColor : '#4183c4',
+			buttonColor : '#4183c4',
 			menuLayoutMenuWidth : 250,
-			menuLayoutMenuBackgroundColor : '#333'
+			menuLayoutMenuBackgroundColor : '#4183c4'
 		}
 	},
 
 	NODE_CONFIG : {
 		
 		dbName : 'HanulBlog-test',
-		
-		isUsingHTMLSnapshot : true,
 		
 		HanulBlog : {
 			password : '1234'

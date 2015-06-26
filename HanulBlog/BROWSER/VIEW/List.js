@@ -159,7 +159,6 @@ HanulBlog.List = CLASS({
 									on : {
 										tap : function(e) {
 											HanulBlog.GO('list/' + (category === undefined ? '' : category + '/') + (i + 1));
-											e.stopDefault();
 										}
 									}
 								})
@@ -172,7 +171,7 @@ HanulBlog.List = CLASS({
 			if (category === undefined) {
 				TITLE(CONFIG.title);
 			} else {
-				TITLE(CONFIG.title + ' :: ' + category);
+				TITLE(category + ' - ' + CONFIG.title);
 			}
 		});
 

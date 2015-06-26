@@ -50,7 +50,7 @@ HanulBlog.ArticleDom = CLASS({
 					padding : 10,
 					cursor : isViewMode === true ? undefined : 'pointer'
 				},
-				c : [A({
+				c : [(isViewMode === true ? SPAN : A)({
 					style : {
 						flt : 'left',
 						textDecoration : 'none',
@@ -73,7 +73,6 @@ HanulBlog.ArticleDom = CLASS({
 					tap : function(e) {
 						if (isViewMode !== true) {
 							HanulBlog.GO('view/' + articleData.id);
-							e.stopDefault();
 						}
 					}
 				}
