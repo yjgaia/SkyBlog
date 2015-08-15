@@ -20,6 +20,9 @@ HanulBlog.ArticleDom = CLASS({
 		// cal
 		cal = CALENDAR(TIME(articleData.createTime)),
 		
+		// browser info
+		browserInfo = INFO.getBrowserInfo(),
+		
 		// panel
 		panel,
 		
@@ -115,8 +118,12 @@ HanulBlog.ArticleDom = CLASS({
 			})]
 		});
 		
-		content.getEl().setAttribute('class', 'markdown-body');
-		content.getEl().innerHTML = marked(articleData.content);
+		if (browserInfo.name === 'Internet Explorer' && browserInfo.version < 9) {
+			content.append(articleData.content);
+		} else {
+			content.getEl().setAttribute('class', 'markdown-body');
+			content.getEl().innerHTML = marked(articleData.content);
+		}
 		
 		if (isShowCategory === true) {
 		

@@ -123,8 +123,12 @@ HanulBlog.Form = CLASS({
 								style : {
 									marginTop : 10
 								},
-								box : HanulBlog,
-								uploadSuccess : function(fileData, form) {
+								box : HanulBlog
+							}, {
+								overSizeFile : function(maxUploadFileMB) {
+									alert('파일 용량은 ' + maxUploadFileMB + 'mb를 넘을 수 없습니다.');
+								},
+								success : function(fileData, form) {
 									
 									if (fileData.type.substring(0, 6) === 'image/') {
 										editor.setValue(editor.getValue() + '[![ScreenShot](' + HanulBlog.RF('THUMB/' + fileData.id) + ')](' + HanulBlog.RF(fileData.id) + ')', -1);

@@ -67,13 +67,13 @@ HanulBlog.Login = CLASS({
 								HanulBlog.REFRESH('');
 								
 							} else {
-								UUI.MODAL({
+								UUI.NOTICE({
 									style : {
 										padding : '20px 30px',
 										backgroundColor : BROWSER_CONFIG.HanulBlog.baseColor,
 										color : '#fff'
 									},
-									c : '비밀번호가 다릅니다.'
+									msg : '비밀번호가 다릅니다.'
 								});
 							}
 						});
