@@ -130,6 +130,54 @@ OVERRIDE(HanulBlog.ArticleModel, function(origin) {
 					});
 				}
 			});
+			
+			HanulBlog.ROOM(self.getName(), function(clientInfo, on) {
+
+				on('changeCategory', function(params, ret) {
+					
+					var
+					// origin category
+					originCategory,
+					
+					// new category
+					newCategory;
+					
+					if (params !== undefined) {
+					
+						originCategory = params.originCategory;
+						newCategory = params.newCategory;
+						
+						self.find({
+							filter : {
+								category : originCategory
+							},
+							isFindAll : true
+						}, function(savedDataSet) {
+							
+							var
+							// data
+							data;
+							
+							NEXT(savedDataSet, [
+							function(savedData, next) {
+								self.update({
+									id : savedData.id,
+									category : newCategory
+								}, function(savedData) {
+									data = savedData;
+									next();
+								});
+							},
+							
+							function() {
+								return function() {
+									ret(data === undefined ? newCategory : data.category);
+								};
+							}]);
+						});
+					}
+				});
+			});
 		}
 	});
 });

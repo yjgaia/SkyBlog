@@ -86,10 +86,32 @@ HanulBlog.List = CLASS({
 					host : 'tagengine.btncafe.com',
 					uri : '__REP_TAG',
 					paramStr : 'tag=' + encodeURIComponent(category)
-				}, function(category) {
+				}, function(tag) {
 					if (inner.checkIsClosed() !== true) {
 						categoryDom.empty();
-						categoryDom.append(category);
+						categoryDom.append(tag);
+						
+						categoryDom.append(A({
+							style : {
+								marginLeft : 5,
+								fontSize : 12,
+								color : '#428bca',
+								textDecoration : 'none'
+							},
+							c : '[카테고리 수정]',
+							on : {
+								tap : function() {
+									HanulBlog.ArticleModel.changeCategory({
+										originCategory : category,
+										newCategory : prompt('새 카테고리를 입력해주세요.')
+									}, function(newCategory) {
+										HanulBlog.GO('list/' + newCategory + '/1');
+									});
+								}
+							}
+						}));
+						
+						categoryDom.append(CLEAR_BOTH());
 					}
 				});
 			}
