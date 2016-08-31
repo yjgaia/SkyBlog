@@ -1,4 +1,4 @@
-require(process.env.UPPERCASE_IO_PATH + '/BOOT.js');
+require(process.env.UPPERCASE_PATH + '/BOOT.js');
 
 BOOT({
 	CONFIG : {
@@ -36,6 +36,8 @@ BOOT({
 	},
 
 	NODE_CONFIG : {
+		// 테스트를 위해
+		isNotUsingCPUClustering : true,
 		
 		dbName : 'SkyBlog-test',
 		

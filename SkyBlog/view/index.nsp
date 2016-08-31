@@ -1,0 +1,114 @@
+meta viewport='width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no'
+
+link rel='stylesheet' href='http://yui.yahooapis.com/pure/0.6.0/pure-min.css'
+link rel='stylesheet' href='http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css'
+link rel='stylesheet' href='/R/style.css'
+
+title 'Sample - Sky Blog'
+
+body
+	div#layout.pure-g
+		div.sidebar.pure-u-1.pure-u-md-1-4
+			div.header
+				h1.brand-title 'A Sample Blog'
+				h2.brand-tagline 'Creating a blog layout using Pure'
+				
+				nav.nav
+					ul.nav-list
+						li.nav-item
+							a.pure-button href='http://purecss.io' 'Pure'
+						li.nav-item
+							a.pure-button href='http://yuilibrary.com' 'YUI Library'
+	
+	div.content.pure-u-1.pure-u-md-3-4
+		div
+			# A wrapper for all the blog posts
+			div.posts
+				h1.content-subhead 'Pinned Post'
+				
+				# A single blog post
+				section.post
+					header.post-header
+						img.post-avatar width='48' hegiht='48' src='/img/common/tilo-avatar.png'
+						
+						h2.post-title 'Introducing Pure'
+						
+						p.post-meta '
+							By <a href="#" class="post-author">Tilo Mitra</a> under <a class="post-category post-category-design" href="#">CSS</a> <a class="post-category post-category-pure" href="#">Pure</a>
+						'
+					
+					div.post-description
+						p '
+							Yesterday at CSSConf, we launched Pure – a new CSS library. Phew! Here are the <a href="https://speakerdeck.com/tilomitra/pure-bliss">slides from the presentation</a>. Although it looks pretty minimalist, we’ve been working on Pure for several months. After many iterations, we have released Pure as a set of small, responsive, CSS modules that you can use in every web project.
+						'
+
+			div.posts
+				h1.content-subhead 'Recent Posts'
+				
+				section.post
+					header.post-header
+						img.post-avatar width='48' hegiht='48' src='/img/common/ericf-avatar.png'
+						
+						h2.post-title 'Everything You Need to Know About Grunt'
+						
+						p.post-meta '
+							By <a class="post-author" href="#">Eric Ferraiuolo</a> under <a class="post-category post-category-js" href="#">JavaScript</a>
+						'
+					
+					div.post-description
+						p '
+							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+						'
+				
+				section.post
+					header.post-header
+						img.post-avatar width='48' hegiht='48' src='/img/common/reid-avatar.png'
+						
+						h2.post-title 'Photos from CSSConf and JSConf'
+						
+						p.post-meta '
+							By <a class="post-author" href="#">Reid Burke</a> under <a class="post-category" href="#">Uncategorized</a>
+						'
+					
+					div.post-description
+						div.post-images.pure-g
+							div.pure-u-1.pure-u-md-1-2
+								a href='http://www.flickr.com/photos/uberlife/8915936174/'
+									img.pure-img-responsive src='http://farm8.staticflickr.com/7448/8915936174_8d54ec76c6.jpg'
+								
+								div.post-image-meta
+									h3 'CSSConf Photos'
+							
+							div.pure-u-1.pure-u-md-1-2
+								a href='http://www.flickr.com/photos/uberlife/8907351301/'
+									img.pure-img-responsive src='http://farm8.staticflickr.com/7382/8907351301_bd7460cffb.jpg'
+								
+								div.post-image-meta
+									h3 'JSConf Photos'
+				
+				section.post
+					header.post-header
+						img.post-avatar width='48' hegiht='48' src='/img/common/andrew-avatar.png'
+						
+						h2.post-title 'YUI 3.10.2 Released'
+						
+						p.post-meta '
+							By <a class="post-author" href="#">Andrew Wooldridge</a> under <a class="post-category post-category-yui" href="#">YUI</a>
+						'
+						
+					div.post-description
+						p '
+							We are happy to announce the release of YUI 3.10.2! You can find it now on the Yahoo! CDN, download it directly, or pull it in via npm. We’ve also updated the YUI Library website with the latest documentation.
+						'
+			
+			div.footer
+				div.pure-menu.pure-menu-horizontal
+					ul
+						li.pure-menu-item
+							a.pure-menu-link href='http://purecss.io/' 'About'
+						li.pure-menu-item
+							a.pure-menu-link href='http://twitter.com/yuilibrary/' 'Twitter'
+						li.pure-menu-item
+							a.pure-menu-link href='http://github.com/yahoo/pure/' 'GitHub'
+
+
